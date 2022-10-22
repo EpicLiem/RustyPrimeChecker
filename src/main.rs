@@ -4,9 +4,9 @@ use std::thread;
 use std::sync::mpsc;
 
 // This is the code for the threads
-fn Check_Primes(Root_Prime_Check: i128, prime_check: i128, p: i128, t: i128) -> bool {
-    println!("Starting Thread: {}-{}",((Root_Prime_Check) / (t)) * (p - 1) + 5, ((Root_Prime_Check + 5) / (t)) * p);
-    for i in (((Root_Prime_Check) / (4)) * (p - 1) + 5..((Root_Prime_Check + 5) / (4)) * p).step_by(4) {
+fn check_primes(root_prime_check: i128, prime_check: i128, p: i128, t: i128) -> bool {
+    println!("Starting Thread: {}-{}",((root_prime_check) / (t)) * (p - 1) + 5, ((root_prime_check + 5) / (t)) * p);
+    for i in (((root_prime_check) / (4)) * (p - 1) + 5..((root_prime_check + 5) / (4)) * p).step_by(4) {
         if prime_check % i == 0 || prime_check % (i + 2) == 0 {
             return false;
         }
@@ -14,9 +14,14 @@ fn Check_Primes(Root_Prime_Check: i128, prime_check: i128, p: i128, t: i128) -> 
     return true;
 }
 
+fn stall() {
+    let mut input = String::new();
+    stdin().read_line(&mut input).unwrap();
+}
+
 fn main() -> Result<(), Box<dyn Error>> {
     //threads
-    let t = 6;
+    let t = 14;
     //making threads work
     let t = t + 1;
     let t = t;
@@ -68,7 +73,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         let ctx = tx_clone;
         let t = t;
         thread::spawn(move|| {
-            let result = Check_Primes(root_prime_check, prime_check, p, t);
+            let result = check_primes(root_prime_check, prime_check, p, t);
             ctx.send(result).unwrap();
         });
     }
@@ -80,7 +85,7 @@ fn main() -> Result<(), Box<dyn Error>> {
             flag = false;
             break;
         }
-        if i == 5 {
+        if i == t {
             break;
         }
         println!("Received: {}", received);
@@ -96,5 +101,6 @@ fn main() -> Result<(), Box<dyn Error>> {
         let elapsed = now.elapsed();
         println!("Elapsed: {:.2?}", elapsed);
     }
+    stall();
     Ok(())
 }
