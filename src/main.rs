@@ -6,7 +6,7 @@ use std::sync::mpsc;
 // This is the code for the threads
 fn check_primes(root_prime_check: i128, prime_check: i128, p: i128, t: i128) -> bool {
     println!("Starting Thread: {}-{}",((root_prime_check) / (t)) * (p - 1) + 5, ((root_prime_check + 5) / (t)) * p);
-    for i in (((root_prime_check) / (4)) * (p - 1) + 5..((root_prime_check + 5) / (4)) * p).step_by(4) {
+    for i in (((root_prime_check) / (t)) * (p - 1) + 5..((root_prime_check + 5) / (t)) * p).step_by(4) {
         if prime_check % i == 0 || prime_check % (i + 2) == 0 {
             return false;
         }
@@ -82,24 +82,16 @@ fn main() -> Result<(), Box<dyn Error>> {
     for received in rx {
         i += 1;
         if received == false {
-            flag = false;
-            break;
+            println!("{} is not a prime number", prime_check);
+            let elapsed = now.elapsed();
+            println!("Elapsed: {:.2?}", elapsed);
         }
         if i == t {
-            break;
+            println!("{} is a prime number", prime_check);
+            let elapsed = now.elapsed();
+            println!("Elapsed: {:.2?}", elapsed);
         }
         println!("Received: {}", received);
-    }
-    //printing results
-    if flag == true {
-        println!("{} is a prime number", prime_check);
-        let elapsed = now.elapsed();
-        println!("Elapsed: {:.2?}", elapsed);
-    }
-    if flag == false {
-        println!("{} is not a prime number", prime_check);
-        let elapsed = now.elapsed();
-        println!("Elapsed: {:.2?}", elapsed);
     }
     stall();
     Ok(())

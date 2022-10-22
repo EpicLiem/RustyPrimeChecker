@@ -9,5 +9,5 @@ I'm a freshman in highschool that's really into CS and i'm trying to find out wh
 
 ## 📫 How to reach me:
 - Discord: `MonisVerse#6969`
-- Email: `liem@epicliem.com`
-- Website: `https://epicliem.com/`
+- Email: [`liem@epicliem.com`](mailto:epicliem.com)
+- Website: [`https://epicliem.com/`](https://epicliem.com/)
